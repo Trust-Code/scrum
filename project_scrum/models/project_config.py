@@ -22,9 +22,8 @@ class ProjectConfigSettings(models.TransientModel):
         of the task is made for the next sprint.
         """))
 
-    def get_default_cancel_open_tasks_scrum(
-            self, cr, uid, fields, context=None):
-        user = self.pool['res.users'].browse(cr, uid, uid, context)
+    def get_default_cancel_open_tasks_scrum(self, fields):
+        user = self.env.user
         return {'cancel_open_tasks_scrum':
                 user.company_id.cancel_open_tasks_scrum}
 
