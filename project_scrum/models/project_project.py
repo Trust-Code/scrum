@@ -2,7 +2,10 @@
 # © 2016 Danimar Ribeiro, Trustcode
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import api, fields, models, _
+from datetime import datetime, timedelta
+
+from odoo import api, fields, models, _
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class ProjectTaskType(models.Model):
@@ -123,24 +126,26 @@ class ProjectTask(models.Model):
         else:
             return [], None
 
-    def _read_group_stage_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
-        stage_obj = self.pool.get('project.task.type')
+    @api.multi
+    def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None):    
+        stage_obj = self.env['project.task.type']
         order = stage_obj._order
-        access_rights_uid = access_rights_uid or uid
+        access_rights_uid = access_rights_uid or self.env.uid
         if read_group_order == 'stage_id desc':
             order = '%s desc' % order
         search_domain = []
-        project_id = context.get('default_project_id', False)
+        project_id = self.env.context.get('default_project_id', False)
         if project_id:
             search_domain += ['|', ('project_ids', '=', project_id)]
-        search_domain += [('id', 'in', ids)]
-        stage_ids = stage_obj._search(cr, uid, search_domain, order=order, access_rights_uid=access_rights_uid, context=context)
-        result = stage_obj.name_get(cr, access_rights_uid, stage_ids, context=context)
+        search_domain += [('id', 'in', self.ids)]
+        stage_ids = stage_obj.sudo(access_rights_uid).search(
+            search_domain, order=order, access_rights_uid=access_rights_uid)
+        result = stage_ids.name_get()
         # restore order of the search
         result.sort(lambda x, y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))
 
         fold = {}
-        for stage in stage_obj.browse(cr, access_rights_uid, stage_ids, context=context):
+        for stage in stage_ids:
             fold[stage.id] = stage.fold or False
         return result, fold
 
@@ -151,20 +156,18 @@ class ProjectTask(models.Model):
         'stage_id': _read_group_stage_ids,
     }
    
-    def filter_current_sprint(self, cr, uid, ids, context=None):
-        user_object = self.pool.get('res.users')
-        sprint = self.pool.get('project.scrum.sprint')
-        user = user_object.browse(cr, uid, uid, context=context)
+    @api.model
+    def filter_current_sprint(self):
+        sprint = self.env['project.scrum.sprint']
+        user = self.env.user
         view_type = 'kanban,form,tree'
         team_id = user.scrum_team_id.id
-        sprint_ids = sprint.search(cr, uid,
-                                   [('state', '=', 'open'),
-                                    ('scrum_team_id', '=', team_id)],
-                                   context=context)
+        sprint_ids = sprint.search([('state', '=', 'open'),
+                                    ('scrum_team_id', '=', team_id)])
         if sprint_ids:
-            cr.execute('select distinct project_id from project_task\
+            self._cr.execute('select distinct project_id from project_task\
                        where sprint_id = %s' % sprint_ids[0])
-            project_ids = cr.fetchall()
+            project_ids = self._cr.fetchall()
             context = {'search_default_project_id': project_ids}
             value = {
                 'domain': [('state_sprint', '=', 'open')],

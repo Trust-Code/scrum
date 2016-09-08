@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <openerp>
-    <data noupdate="1">
+    <data>
     
     <!-- REGRA QUE NÃO PERMITE QUE UMA TAREFA AVANCE PARA O ESTÁGIO 'TO-DO' SEM TER UM SPRINT RELACIONADO -->
         <record id="filter_without_sprint" model="ir.filters">
             <field name="name">without Sprint</field>
             <field name="model_id">project.task</field>
-            <field name="domain">[('sprint_id','=',False)]</field>
+            <field name="domain">[('sprint_id','=',False), ('use_scrum', '=', True)]</field>
             <field name="user_id" eval="False"/>
         </record>
 

@@ -2,7 +2,6 @@
 # © 2016 Danimar Ribeiro, Trustcode
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
 {
     'name': 'Project Scrum',
     'version': '10.0.2.0.0',
@@ -22,4 +21,5 @@
     ],
     'demo': ['project_scrum_demo.xml'],
     'installable': True,
+    'application': True,
 }

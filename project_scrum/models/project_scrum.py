@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
+# © 2016 Danimar Ribeiro, Trustcode
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-import openerp.tools
 import re
-import time
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
-from datetime import date, datetime, timedelta
-from dateutil.relativedelta import relativedelta
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
-
 import logging
+from datetime import date, timedelta
+
+import odoo.tools
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning
+
+
 _logger = logging.getLogger(__name__)
 
 
@@ -43,12 +44,12 @@ class scrum_sprint(models.Model):
             return 1
         return diff.days + 1
             
-    def test_task(self, cr, uid, sprint, pool):
-        tags = pool.get('project.category').search(cr, uid, [('name', '=', 'test')])  # search tags with name "test"
+    def test_task(self, sprint):
+        tags = self.env['project.category'].search([('name', '=', 'test')])  # search tags with name "test"
         if len(tags) == 0:  # if not exist, then creat a "test" tag into category
-            tags.append(pool.get('project.category').create(cr, uid, {'name':'test'}))
+            tags.append(self.env['project.category'].create({'name':'test'}))
         for tc in sprint.project_id.test_case_ids:  # loop through each test cases to creat task
-            pool.get('project.task').create(cr, uid, {
+            self.env['project.task'].create({
                 'name': '[TC] %s' % tc.name,
                 'description': tc.description_test,
                 'project_id': tc.project_id.id,
@@ -202,18 +203,17 @@ class project_user_stories(models.Model):
         for p in self:
             p.test_count = len(p.test_ids)
 
-    def _resolve_project_id_from_context(self, cr, uid, context=None):
+    def _resolve_project_id_from_context(self):
         """ Returns ID of project based on the value of 'default_project_id'
             context key, or None if it cannot be resolved to a single
             project.
         """
-        if context is None:
-            context = {}
+        context = self._context
         if type(context.get('default_project_id')) in (int, long):
             return context['default_project_id']
         if isinstance(context.get('default_project_id'), basestring):
             project_name = context['default_project_id']
-            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
+            project_ids = self.env['project.project'].name_search(name=project_name)
             if len(project_ids) == 1:
                 return project_ids[0][0]
         return None
@@ -332,14 +332,13 @@ class test_case(models.Model):
     stats_test = fields.Selection([('draft', 'Draft'), ('in progress', 'In Progress'), ('cancel', 'Cancelled')], string='State', required=False)
     company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
 
-    def _resolve_project_id_from_context(self, cr, uid, context=None):
-        if context is None:
-            context = {}
+    def _resolve_project_id_from_context(self):
+        context = self._context
         if type(context.get('default_project_id')) in (int, long):
             return context['default_project_id']
         if isinstance(context.get('default_project_id'), basestring):
             project_name = context['default_project_id']
-            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
+            project_ids = self.env['project.project'].name_search(name=project_name)
             if len(project_ids) == 1:
                 return project_ids[0][0]
         return None

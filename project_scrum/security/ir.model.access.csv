@@ -10,3 +10,6 @@ access_project_actor,res.groups,model_project_scrum_actors,project.group_project
 access_project_test_manager,res.groups,model_project_scrum_test,project.group_project_manager,1,1,1,1
 access_project_test,res.groups,model_project_scrum_test,project.group_project_user,1,1,1,0
 access_project_burndown,res.groups,model_project_burndown,project.group_project_user,1,1,1,1
+access_project_scrum_team_manager,access_project_scrum_team,model_project_scrum_team,project.group_project_manager,1,1,1,1
+accses_project_scrum_team,access_project_scrum_team,model_project_scrum_team,project.group_project_user,1,0,0,0
+
