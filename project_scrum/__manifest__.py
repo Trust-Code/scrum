@@ -4,6 +4,7 @@
 
 {
     'name': 'Project Scrum',
+    'summary': 'Scrum Management module by Trustcode',
     'version': '10.0.2.0.0',
     'category': 'Project Management',
     'author': 'Vertel AB, Trustcode',
