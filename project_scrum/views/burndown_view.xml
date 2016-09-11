@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
+<odoo>
+    <record id="view_project_scrum_burndown_search_graph" model="ir.ui.view">
+        <field name="name">project.burndown.search.graph</field>
+        <field name="model">project.burndown</field>
+        <field name="arch" type="xml">
+            <search string="Burndown">
+                <field name="sprint_id" widget="selection" />
+            </search>
+        </field>
+    </record>
 
-		<record id="view_project_scrum_burndown_search_graph" model="ir.ui.view">
-            <field name="name">project.burndown.search.graph</field>
-            <field name="model">project.burndown</field>
-            <field name="arch" type="xml">
-               <search string="Burndown">
-               		<field name="sprint_id" widget="selection" />
-                </search>
-            </field>
-        </record>
+    <record id="action_project_scrum_burndown_graph" model="ir.actions.act_window">
+        <field name="res_model">project.burndown</field>
+        <field name="name">Burndown</field>
+        <field name="view_mode">graph</field>
+        <field name="search_view_id" ref="view_project_scrum_burndown_search_graph" />
+    </record>
 
-		<record id="action_project_scrum_burndown_graph" model="ir.actions.act_window">
-			<field name="res_model">project.burndown</field>
-			<field name="name">Burndown</field>			
-			<field name="view_mode">graph</field>
-			<field name="search_view_id" ref="view_project_scrum_burndown_search_graph" />
-		</record>	
-	
 
-	 	<record id="view_project_scrum_burndown_graph" model="ir.ui.view">
-            <field name="name">project.burndown.graph</field>
-            <field name="model">project.burndown</field>
-            <field name="arch" type="xml">
-                <graph string="Sprint Burndown" type="line">
-                    <field name="day" type="row" interval="day"/>
-                    <field name="type" type="col"/>
-                    <field name="points" type="measure"/>
-                </graph>
-            </field>
-        </record>
-
-	</data>
-</openerp>
+    <record id="view_project_scrum_burndown_graph" model="ir.ui.view">
+        <field name="name">project.burndown.graph</field>
+        <field name="model">project.burndown</field>
+        <field name="arch" type="xml">
+            <graph string="Sprint Burndown" type="line">
+                <field name="day" type="row" interval="day"/>
+                <field name="type" type="col"/>
+                <field name="points" type="measure"/>
+            </graph>
+        </field>
+    </record>
+</odoo>

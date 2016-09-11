@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-
-		<record id="view_config_settings" model="ir.ui.view">
-			<field name="name">Project Application</field>
-			<field name="model">project.config.settings</field>
-			<field name="inherit_id" ref="project.view_config_settings" />
-			<field name="arch" type="xml">
-				<group name="project_management" position="after">
-					<separator string="Scrum" />
-					<group name="scrum" string="Scrum">
-						<label for="id" string="Tarefas sprint" />
-						<div>
-							<div>
-								<field name="cancel_open_tasks_scrum" class="oe_inline" />
-								<label for="cancel_open_tasks_scrum" />
-							</div>
-						</div>
-					</group>
-				</group>
-			</field>
-		</record>
-
-	</data>
-</openerp>
+<odoo>
+    <record id="view_config_settings" model="ir.ui.view">
+        <field name="name">Project Application</field>
+        <field name="model">project.config.settings</field>
+        <field name="inherit_id" ref="project.view_config_settings" />
+        <field name="arch" type="xml">
+            <group name="project_management" position="after">
+                <separator string="Scrum" />
+                <group name="scrum" string="Scrum">
+                    <label for="id" string="Tarefas sprint" />
+                    <div>
+                        <div>
+                            <field name="cancel_open_tasks_scrum" class="oe_inline" />
+                            <label for="cancel_open_tasks_scrum" />
+                        </div>
+                    </div>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

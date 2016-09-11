@@ -4,8 +4,8 @@
 
 {
     'name': 'Project Scrum',
-    'summary': 'Scrum Management module by Trustcode',
-    'version': '10.0.2.0.0',
+    'summary': 'Scrum Management module maintained by Trustcode',
+    'version': '10.0.1.0.0',
     'category': 'Project Management',
     'author': 'Vertel AB, Trustcode',
     'website': 'http://www.trustcode.com.br',
@@ -20,7 +20,7 @@
         'views/project_config_settings_view.xml',
         'views/project_project.xml',
     ],
-    'demo': ['project_scrum_demo.xml'],
+    'demo': ['demo/project_scrum.xml'],
     'installable': True,
     'application': True,
 }
