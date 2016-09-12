@@ -9,7 +9,7 @@
     'category': 'Project Management',
     'author': 'Vertel AB, Trustcode',
     'website': 'http://www.trustcode.com.br',
-    'depends': ['project', 'mail'],
+    'depends': ['project', 'mail', 'base_action_rule', 'sales_team'],
     'data': [
         'views/burndown_view.xml',
         'views/project_scrum_view.xml',
