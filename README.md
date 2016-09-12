@@ -24,6 +24,12 @@
 
 This is a repository from Trustcode.
 
+[![Build Status](https://travis-ci.org/Trust-Code/scrum.svg?branch=master)](https://travis-ci.org/Trust-Code/scrum)
+[![Coverage Status](https://coveralls.io/repos/Trust-Code/scrum/badge.svg?branch=master)](https://coveralls.io/r/Trust-Code/scrum?branch=master)
+[![Code Climate](https://codeclimate.com/github/Trust-Code/scrum/badges/gpa.svg)](https://codeclimate.com/github/Trust-Code/scrum)
+[![Code Health](https://landscape.io/github/Trust-Code/scrum/master/landscape.svg?style=flat)](https://landscape.io/github/Trust-Code/scrum/master)
+
+
 ## Overview
 
 This module implements scrum process within Odoo project and tasks management.
@@ -54,13 +60,13 @@ TODO
 
 ### Initialize
 
-TODO 
+TODO
 
 <p align="right"><a href="#top">:arrow_up:</a></p>
 
 ## Structure
 
-TODO 
+TODO
 
 <p align="right"><a href="#top">:arrow_up:</a></p>
 
@@ -79,4 +85,3 @@ TODO
 Add licence here
 
 <p align="right"><a href="#top">:arrow_up:</a></p>
-
