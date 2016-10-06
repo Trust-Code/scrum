@@ -7,7 +7,6 @@ import re
 import logging
 from datetime import date, timedelta
 
-import odoo.tools
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning
 
@@ -135,7 +134,6 @@ class ScrumSprint(models.Model):
     # Compute: effective_hours, total_hours, progress
     @api.one
     def _hours_get(self):
-        res = {}
         effective_hours = 0.0
         planned_hours = 0.0
         # TODO Estes campos mudaram de lugar na 10, foram parar no hr_timesheet
